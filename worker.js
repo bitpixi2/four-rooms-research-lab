@@ -579,25 +579,15 @@ function replaceShareImageMeta(html, imageUrl) {
     );
 }
 
-async function shareImageForUrl(env, url) {
-  const defaultImage = "https://frrl.deviantclaw.art/assets/four-rooms/intro-alt.png";
-  const certificateImage = "https://frrl.deviantclaw.art/assets/four-rooms/certificate.png";
-  const sessionId = url.searchParams.get("result") || url.searchParams.get("session");
-  if (!sessionId) return defaultImage;
-  try {
-    const store = await loadStore(env);
-    const session = store.sessions.find((item) => item.id === sessionId);
-    return session?.completed ? certificateImage : defaultImage;
-  } catch {
-    return defaultImage;
-  }
+function shareImageForUrl() {
+  return "https://frrl.deviantclaw.art/assets/four-rooms/certificate.png";
 }
 
 async function handleHtmlShell(request, env, url) {
   const assetUrl = new URL("/index.html", url.origin);
   const response = await env.ASSETS.fetch(new Request(assetUrl, request));
   if (!response.ok) return response;
-  const imageUrl = await shareImageForUrl(env, url);
+  const imageUrl = shareImageForUrl();
   const headers = new Headers(response.headers);
   headers.set("Content-Type", "text/html; charset=utf-8");
   headers.set("Cache-Control", "no-cache");

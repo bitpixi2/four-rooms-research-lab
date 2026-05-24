@@ -469,19 +469,16 @@
         }, duration);
     }
 
-    function getExperimentUrl(session) {
+    function getExperimentUrl() {
         const url = new URL(window.location.href);
         url.search = "";
         url.hash = "";
-        if (session?.completed && session?.id) {
-            url.searchParams.set("result", session.id);
-        }
         return url.toString();
     }
 
     function buildSharePostText(session) {
         const shareLine = session?.summary?.shareText || "My agent got a result in Four Rooms Research Lab.";
-        return `${shareLine} ${getExperimentUrl(session)}`.trim();
+        return `${shareLine} ${getExperimentUrl()}`.trim();
     }
 
     function wrapText(text, maxChars = 34, maxLines = 3) {
