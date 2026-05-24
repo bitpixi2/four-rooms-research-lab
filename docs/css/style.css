@@ -1208,11 +1208,6 @@ textarea {
     text-transform: uppercase;
 }
 
-.scene-caption-body {
-    font-size: 0.92rem;
-    line-height: 1.55;
-}
-
 .scene > * {
     animation: riseIn 720ms ease both;
 }

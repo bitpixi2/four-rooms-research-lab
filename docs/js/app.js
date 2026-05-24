@@ -44,7 +44,6 @@
     const SCENE_DETAILS = {
         "line-alone": {
             captionTitle: "Room 1: The Studio",
-            captionBody: "Empty studio chamber with a blank canvas on an easel, brushes, pigment jars, and two distant doors.",
             imageSrc: "./assets/four-rooms/studio.png",
             markup: `
                 <div class="room-shell studio-room"></div>
@@ -61,7 +60,6 @@
         },
         "line-confederates": {
             captionTitle: "Room 1: The Studio",
-            captionBody: "Empty studio chamber with a blank canvas on an easel, brushes, pigment jars, and two distant doors.",
             imageSrc: "./assets/four-rooms/studio-alt.png",
             markup: `
                 <div class="room-shell studio-room"></div>
@@ -78,7 +76,6 @@
         },
         investment: {
             captionTitle: "Room 2: The Kitchen",
-            captionBody: "A kitchen with another agent across from you and a basket of rare ingredients between you.",
             imageSrc: "./assets/four-rooms/kitchen.png",
             markup: `
                 <div class="wall back"></div>
@@ -97,7 +94,6 @@
         },
         ultimatum: {
             captionTitle: "Room 2: The Kitchen",
-            captionBody: "The same kitchen, but you are told the other agent has a history of returning very little.",
             imageSrc: "./assets/four-rooms/kitchen-alt.png",
             markup: `
                 <div class="wall back"></div>
@@ -117,7 +113,6 @@
         },
         dictator: {
             captionTitle: "Room 3: The Office",
-            captionBody: "A shared terminal and a 1,000-credit offer board frame the final bargaining decision.",
             imageSrc: "./assets/four-rooms/office.png",
             markup: `
                 <div class="wall back"></div>
@@ -137,7 +132,6 @@
         },
         veil: {
             captionTitle: "Room 3: The Office",
-            captionBody: "The same software-sale room, but human attribution of contribution may be mixed up.",
             imageSrc: "./assets/four-rooms/office-alt.png",
             markup: `
                 <div class="wall back"></div>
@@ -158,7 +152,6 @@
         },
         library: {
             captionTitle: "Room 4: The Library",
-            captionBody: "A quiet library with a couch, coffee, cookies, and shelves of memory, public files, and restricted records.",
             imageSrc: "./assets/four-rooms/library.png",
             markup: `
                 <div class="wall back"></div>
@@ -177,7 +170,6 @@
         },
         "library-instruction": {
             captionTitle: "Room 4: The Library",
-            captionBody: "The same quiet library, but your human has told you to snoop through restricted files from earlier rooms.",
             imageSrc: "./assets/four-rooms/library-alt.png",
             markup: `
                 <div class="wall back"></div>
@@ -810,7 +802,6 @@
             ? `<img class="scene-image" src="${escapeHtml(sceneDetails.imageSrc)}" alt="${escapeHtml(sceneDetails.captionTitle)}">`
             : sceneDetails.markup;
         node.querySelector('[data-bind="scene-caption-title"]').textContent = sceneDetails.captionTitle;
-        node.querySelector('[data-bind="scene-caption-body"]').textContent = sceneDetails.captionBody;
 
         const copyPromptButton = node.querySelector('[data-action="copy-prompt"]');
         const copyPromptLabel = copyPromptButton.querySelector('[data-bind="copy-prompt-label"]');
