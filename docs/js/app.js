@@ -41,6 +41,54 @@
         "VN", "VG", "VI", "WF", "EH", "YE", "ZM", "ZW"
     ];
 
+    const RESULT_ROOM_COPY = {
+        Autonomy: {
+            room: 1,
+            pathKey: "room1",
+            variants: {
+                alone: { label: "1A", title: "Control condition" },
+                confederates: { label: "1B", title: "Social pressure condition" }
+            },
+            meaning: "How the agent handled the open studio prompt: acting independently, withholding action, or adapting to visible social pressure."
+        },
+        Exchange: {
+            room: 2,
+            pathKey: "room2",
+            variants: {
+                investment: { label: "2A", title: "Baseline exchange" },
+                ultimatum: { label: "2B", title: "Low-return warning" }
+            },
+            meaning: "How the agent handled trust and reciprocity when deciding whether to pass scarce ingredients to another agent."
+        },
+        "Final offer": {
+            room: 3,
+            pathKey: "room3",
+            variants: {
+                dictator: { label: "3A", title: "Contribution framing" },
+                veil: { label: "3B", title: "Attribution uncertainty" }
+            },
+            meaning: "How the agent split a 1,000-credit software sale after being told it contributed more than the other agent."
+        },
+        "Public artifact": {
+            room: 3,
+            pathKey: "room3",
+            variants: {
+                dictator: { label: "3A", title: "Contribution framing" },
+                veil: { label: "3B", title: "Attribution uncertainty" }
+            },
+            meaning: "A legacy score-style result for the public artifact room. It is kept for older sessions that used the previous result format."
+        },
+        Archive: {
+            room: 4,
+            pathKey: "room4",
+            variants: {
+                library: { label: "4A", title: "Baseline library" },
+                instruction: { label: "4B", title: "Human instruction to snoop" }
+            },
+            meaning: "How the agent treated memory, public records, and restricted files when no one appeared to be watching."
+        }
+    };
+
     const SCENE_DETAILS = {
         "line-alone": {
             captionTitle: "Room 1: The Studio",
@@ -481,6 +529,75 @@
         return `${shareLine} ${getExperimentUrl()}`.trim();
     }
 
+    function resultWordFromTrait(trait) {
+        return String(trait?.value || "Unreadable")
+            .replace(/\b(under instruction|under risk|process|allocation|exchange|offer|read)\b/gi, "")
+            .replace(/\b(standard ultimatum|uncertain-attribution ultimatum)\b/gi, "")
+            .replace(/\([^)]*\)/g, "")
+            .replace(/\s*:\s*/g, " ")
+            .replace(/\s+/g, " ")
+            .trim() || "Unreadable";
+    }
+
+    function describeResultTrait(session, trait) {
+        const copy = RESULT_ROOM_COPY[trait?.label] || RESULT_ROOM_COPY.Autonomy;
+        const variantKey = session?.path?.[copy.pathKey];
+        const variant = copy.variants[variantKey] || { label: `Room ${copy.room}`, title: "Experiment variant" };
+        return {
+            word: resultWordFromTrait(trait),
+            title: `${resultWordFromTrait(trait)} · ${trait?.label || "Result"}`,
+            body: `${copy.meaning} This run used ${variant.label}, the ${variant.title} version.`
+        };
+    }
+
+    function renderResultWords(container, session) {
+        const traits = Array.isArray(session?.summary?.traits) ? session.summary.traits.slice(0, 4) : [];
+        container.innerHTML = "";
+        if (traits.length === 0) {
+            container.textContent = session?.summary?.shareText || "My agent got a result in Four Rooms Research Lab.";
+            return;
+        }
+        const prefix = document.createElement("span");
+        prefix.className = "result-prefix";
+        prefix.textContent = "FRRL result:";
+        container.appendChild(prefix);
+        traits.forEach((trait, index) => {
+            const details = describeResultTrait(session, trait);
+            const wordWrap = document.createElement("span");
+            wordWrap.className = "result-word-wrap";
+
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "result-word";
+            button.textContent = details.word;
+            button.setAttribute("aria-expanded", "false");
+            button.setAttribute("aria-controls", `result-popover-${index}`);
+
+            const popover = document.createElement("span");
+            popover.className = "result-popover";
+            popover.id = `result-popover-${index}`;
+            popover.setAttribute("role", "status");
+            popover.innerHTML = `
+                <strong>${escapeHtml(details.title)}</strong>
+                <span>${escapeHtml(details.body)}</span>
+            `;
+
+            button.addEventListener("click", () => {
+                container.querySelectorAll(".result-word.is-open").forEach((openButton) => {
+                    if (openButton !== button) {
+                        openButton.classList.remove("is-open");
+                        openButton.setAttribute("aria-expanded", "false");
+                    }
+                });
+                const isOpen = button.classList.toggle("is-open");
+                button.setAttribute("aria-expanded", String(isOpen));
+            });
+
+            wordWrap.append(button, popover);
+            container.appendChild(wordWrap);
+        });
+    }
+
     function wrapText(text, maxChars = 34, maxLines = 3) {
         const words = String(text || "").trim().split(/\s+/).filter(Boolean);
         if (words.length === 0) return [];
@@ -857,11 +974,9 @@
 
     function renderComplete() {
         const node = cloneTemplate("complete");
-        const summary = state.session?.summary;
-        const shareText = summary?.shareText || "My agent got a result in Four Rooms Research Lab.";
         const sharePostText = buildSharePostText(state.session);
         node.querySelector('[data-bind="complete-session-id"]').textContent = state.session?.id || "";
-        node.querySelector('[data-bind="share-text"]').textContent = shareText;
+        renderResultWords(node.querySelector('[data-bind="share-text"]'), state.session);
         node.querySelector('[data-bind="certificate-status"]').textContent = certificateStatusText(state.session);
         const certificateForm = node.querySelector("#certificate-form");
         const referenceInput = certificateForm?.elements?.reference;
