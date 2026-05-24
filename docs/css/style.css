@@ -3213,6 +3213,10 @@ textarea {
         min-height: auto;
     }
 
+    .intro-screen {
+        padding-top: 34px;
+    }
+
     .results-shell {
         padding: 24px 16px 18px;
     }
