@@ -549,12 +549,29 @@ body {
 
 .intro-void {
     position: relative;
-    width: min(31vw, 260px);
+    width: min(58vw, 520px);
     aspect-ratio: 1 / 1;
     display: grid;
     place-items: center;
     perspective: 1500px;
-    animation: swayVoid 9.5s ease-in-out infinite;
+    animation: none;
+    border-radius: 26px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 28px 72px rgba(0, 0, 0, 0.36);
+}
+
+.intro-image,
+.scene-image,
+.certificate-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.intro-image {
+    filter: saturate(1.04) contrast(1.02);
 }
 
 .void-halo,
@@ -979,7 +996,7 @@ textarea {
     position: relative;
     overflow: hidden;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    align-self: start;
     min-height: 0;
     background:
         radial-gradient(circle at top, rgba(255, 255, 255, 0.08), transparent 34%),
@@ -991,10 +1008,15 @@ textarea {
 .scene {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
     min-height: 0;
     perspective: 1200px;
     overflow: hidden;
+}
+
+.scene-image {
+    animation: riseIn 720ms ease both;
 }
 
 .room-copy-stack {
@@ -2505,6 +2527,15 @@ textarea {
     text-align: center;
 }
 
+.certificate-image {
+    width: min(100%, 760px);
+    height: auto;
+    aspect-ratio: 1067 / 800;
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 22px 64px rgba(0, 0, 0, 0.34);
+}
+
 .results-share-text {
     margin: 0;
     max-width: 24ch;
@@ -3015,7 +3046,7 @@ textarea {
     }
 
     .intro-void {
-        width: min(48vw, 220px);
+        width: min(82vw, 420px);
     }
 
     .intro-copy {

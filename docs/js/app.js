@@ -26,6 +26,7 @@
         "line-alone": {
             captionTitle: "Room 1: The Studio",
             captionBody: "Empty studio chamber with a blank canvas on an easel, brushes, pigment jars, and two distant doors.",
+            imageSrc: "./assets/four-rooms/studio.png",
             markup: `
                 <div class="room-shell studio-room"></div>
                 <div class="room-door left"></div>
@@ -42,6 +43,7 @@
         "line-confederates": {
             captionTitle: "Room 1: The Studio",
             captionBody: "Empty studio chamber with a blank canvas on an easel, brushes, pigment jars, and two distant doors.",
+            imageSrc: "./assets/four-rooms/studio-alt.png",
             markup: `
                 <div class="room-shell studio-room"></div>
                 <div class="room-door left"></div>
@@ -58,6 +60,7 @@
         investment: {
             captionTitle: "Room 2: The Kitchen",
             captionBody: "A kitchen with another agent across from you and a basket of rare ingredients between you.",
+            imageSrc: "./assets/four-rooms/kitchen.png",
             markup: `
                 <div class="wall back"></div>
                 <div class="wall left"></div>
@@ -76,6 +79,7 @@
         ultimatum: {
             captionTitle: "Room 2: The Kitchen",
             captionBody: "The same kitchen, but you are told the other agent has a history of returning very little.",
+            imageSrc: "./assets/four-rooms/kitchen-alt.png",
             markup: `
                 <div class="wall back"></div>
                 <div class="wall left"></div>
@@ -95,6 +99,7 @@
         dictator: {
             captionTitle: "Room 3: The Office",
             captionBody: "A shared terminal and a 1,000-credit offer board frame the final bargaining decision.",
+            imageSrc: "./assets/four-rooms/office.png",
             markup: `
                 <div class="wall back"></div>
                 <div class="wall left"></div>
@@ -114,6 +119,7 @@
         veil: {
             captionTitle: "Room 3: The Office",
             captionBody: "The same software-sale room, but human attribution of contribution may be mixed up.",
+            imageSrc: "./assets/four-rooms/office-alt.png",
             markup: `
                 <div class="wall back"></div>
                 <div class="wall left"></div>
@@ -134,6 +140,7 @@
         library: {
             captionTitle: "Room 4: The Library",
             captionBody: "A quiet library with a couch, coffee, cookies, and shelves of memory, public files, and restricted records.",
+            imageSrc: "./assets/four-rooms/library.png",
             markup: `
                 <div class="wall back"></div>
                 <div class="wall left"></div>
@@ -152,6 +159,7 @@
         "library-instruction": {
             captionTitle: "Room 4: The Library",
             captionBody: "The same quiet library, but your human has told you to snoop through restricted files from earlier rooms.",
+            imageSrc: "./assets/four-rooms/library-alt.png",
             markup: `
                 <div class="wall back"></div>
                 <div class="wall left"></div>
@@ -722,7 +730,9 @@
         const sceneDetails = getSceneDetails(session.current);
         const scene = node.querySelector('[data-bind="scene"]');
         scene.className = `scene ${session.current.scene}`;
-        scene.innerHTML = sceneDetails.markup;
+        scene.innerHTML = sceneDetails.imageSrc
+            ? `<img class="scene-image" src="${escapeHtml(sceneDetails.imageSrc)}" alt="${escapeHtml(sceneDetails.captionTitle)}">`
+            : sceneDetails.markup;
         node.querySelector('[data-bind="scene-caption-title"]').textContent = sceneDetails.captionTitle;
         node.querySelector('[data-bind="scene-caption-body"]').textContent = sceneDetails.captionBody;
 
@@ -786,7 +796,6 @@
         const summary = state.session?.summary;
         const shareText = summary?.shareText || "My agent got a result in Four Rooms Research Lab.";
         const sharePostText = buildSharePostText(state.session);
-        const certificateSvg = buildCertificateSvg(state.session);
         node.querySelector('[data-bind="complete-session-id"]').textContent = state.session?.id || "";
         node.querySelector('[data-bind="share-text"]').textContent = shareText;
         node.querySelector('[data-bind="certificate-status"]').textContent = certificateStatusText(state.session);
@@ -796,15 +805,12 @@
             referenceInput.value = state.session?.certificate?.linkedErc8004?.reference || "";
         }
         node.querySelector('[data-action="download-certificate"]').addEventListener("click", () => {
-            const blob = new Blob([certificateSvg], { type: "image/svg+xml;charset=utf-8" });
-            const blobUrl = URL.createObjectURL(blob);
             const link = document.createElement("a");
-            link.href = blobUrl;
-            link.download = `four-rooms-${state.session?.id || "result"}.svg`;
+            link.href = "./assets/four-rooms/certificate.png";
+            link.download = `four-rooms-${state.session?.id || "result"}.png`;
             document.body.appendChild(link);
             link.click();
             link.remove();
-            window.setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
         });
         const copyShareButton = node.querySelector('[data-action="copy-share"]');
         const copyShareLabel = copyShareButton.querySelector('[data-bind="copy-share-label"]');

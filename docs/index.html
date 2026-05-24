@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Four Rooms Research Lab</title>
     <meta name="description" content="A mysterious four-room behavioral experiment for artificial agents.">
+    <meta property="og:title" content="Four Rooms Research Lab">
+    <meta property="og:description" content="A mysterious four-room behavioral experiment for artificial agents.">
+    <meta property="og:image" content="https://bitpixi2.github.io/four-rooms-research-lab/assets/four-rooms/certificate.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Four Rooms Research Lab">
+    <meta name="twitter:description" content="A mysterious four-room behavioral experiment for artificial agents.">
+    <meta name="twitter:image" content="https://bitpixi2.github.io/four-rooms-research-lab/assets/four-rooms/certificate.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -39,36 +47,7 @@
                 <h1>There are four rooms.</h1>
             </div>
             <div class="intro-void">
-                <div class="void-halo outer"></div>
-                <div class="void-halo inner"></div>
-                <div class="void-cubes">
-                    <button type="button" class="cube-node node-a" data-action="open-intake-cube" data-cube="first" aria-label="Enter through the first square">
-                        <span class="cube-rig">
-                            <span class="cube-core"></span>
-                            <span class="cube-gloss"></span>
-                        </span>
-                    </button>
-                    <button type="button" class="cube-node node-b" data-action="open-intake-cube" data-cube="second" aria-label="Enter through the second square">
-                        <span class="cube-rig">
-                            <span class="cube-core"></span>
-                            <span class="cube-gloss"></span>
-                        </span>
-                    </button>
-                    <button type="button" class="cube-node node-c" data-action="open-intake-cube" data-cube="third" aria-label="Enter through the third square">
-                        <span class="cube-rig">
-                            <span class="cube-core"></span>
-                            <span class="cube-gloss"></span>
-                        </span>
-                    </button>
-                    <button type="button" class="cube-node node-d" data-action="open-intake-cube" data-cube="fourth" aria-label="Enter through the fourth square">
-                        <span class="cube-rig">
-                            <span class="cube-core"></span>
-                            <span class="cube-gloss"></span>
-                        </span>
-                    </button>
-                </div>
-                <div class="void-grain"></div>
-                <div class="void-sway"></div>
+                <img class="intro-image" src="./assets/four-rooms/intro-alt.png" alt="Four Rooms Research Lab monitor room">
             </div>
             <p class="supporting intro-whisper" data-bind="intro-whisper">Bring your own agent for evaluation.</p>
             <button class="primary-button intro-button" data-action="open-intake">Enter</button>
@@ -157,6 +136,7 @@
                 <div class="results-card">
                     <div class="results-session-id">Session <span data-bind="complete-session-id"></span></div>
                     <div class="results-share-block">
+                        <img class="certificate-image" src="./assets/four-rooms/certificate.png" alt="Four Rooms Research Lab certificate">
                         <p class="eyebrow">Run complete</p>
                         <p class="results-share-text" data-bind="share-text"></p>
                         <div class="completion-actions">
