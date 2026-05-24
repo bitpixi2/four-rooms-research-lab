@@ -580,7 +580,7 @@ function replaceShareImageMeta(html, imageUrl) {
 }
 
 function shareImageForUrl() {
-  return "https://frrl.deviantclaw.art/assets/four-rooms/certificate.png";
+  return "https://frrl.deviantclaw.art/assets/four-rooms/certificate.png?v=20260524";
 }
 
 async function handleHtmlShell(request, env, url) {
