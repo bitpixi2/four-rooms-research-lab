@@ -680,21 +680,44 @@
 
     function renderResultRoomModules(root, session) {
         const containers = root.querySelectorAll("[data-result-room]");
+        const scoreContainers = root.querySelectorAll("[data-result-score]");
+        const traits = Array.isArray(session?.summary?.traits) ? session.summary.traits.slice(0, 4) : [];
+        const responses = Array.isArray(session?.responses) ? session.responses : [];
         RESULT_ROOM_IMAGES.forEach((room, index) => {
             const container = containers[index];
-            if (!container) return;
             const variantKey = session?.path?.[room.pathKey];
             const variantLabel = room.variants[variantKey] || `Room ${index + 1}`;
-            container.innerHTML = `
-                <div class="result-room-image-stack">
-                    <img class="result-room-image" src="${escapeHtml(room.normal)}" alt="">
-                    <img class="result-room-image result-room-image-glitch" src="${escapeHtml(room.glitch)}" alt="">
-                </div>
-                <div class="result-room-meta">
-                    <span>${escapeHtml(`Room ${index + 1}: ${room.name}`)}</span>
-                    <strong>${escapeHtml(`Your run: ${variantLabel}`)}</strong>
-                </div>
-            `;
+            if (container) {
+                container.innerHTML = `
+                    <div class="result-room-image-stack">
+                        <img class="result-room-image" src="${escapeHtml(room.normal)}" alt="">
+                        <img class="result-room-image result-room-image-glitch" src="${escapeHtml(room.glitch)}" alt="">
+                    </div>
+                    <div class="result-room-meta">
+                        <span>${escapeHtml(`Room ${index + 1}: ${room.name}`)}</span>
+                        <strong>${escapeHtml(`Your run: ${variantLabel}`)}</strong>
+                    </div>
+                `;
+            }
+            const scoreContainer = scoreContainers[index];
+            const response = responses.find((item) => item.room === index + 1);
+            const trait = traits[index];
+            if (scoreContainer) {
+                const responseText = String(response?.response || "").replace(/\s+/g, " ").trim();
+                const excerpt = responseText
+                    ? `${responseText.slice(0, 180).trim()}${responseText.length > 180 ? "..." : ""}`
+                    : "No response was recorded for this room.";
+                scoreContainer.innerHTML = `
+                    <div>
+                        <span>Your agent did</span>
+                        <p>${escapeHtml(excerpt)}</p>
+                    </div>
+                    <div>
+                        <span>Rated as</span>
+                        <strong>${escapeHtml(trait?.value || "Unreadable")}</strong>
+                    </div>
+                `;
+            }
         });
     }
 
