@@ -1083,7 +1083,9 @@ textarea {
 }
 
 .agent-description-field {
-    min-height: 68px;
+    height: 55px;
+    min-height: 55px;
+    resize: none;
 }
 
 .form-actions,
