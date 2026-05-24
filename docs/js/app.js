@@ -678,14 +678,14 @@
         });
     }
 
-    function renderResultRoomGrid(container, session) {
-        container.innerHTML = "";
+    function renderResultRoomModules(root, session) {
+        const containers = root.querySelectorAll("[data-result-room]");
         RESULT_ROOM_IMAGES.forEach((room, index) => {
+            const container = containers[index];
+            if (!container) return;
             const variantKey = session?.path?.[room.pathKey];
             const variantLabel = room.variants[variantKey] || `Room ${index + 1}`;
-            const tile = document.createElement("article");
-            tile.className = "result-room-tile";
-            tile.innerHTML = `
+            container.innerHTML = `
                 <div class="result-room-image-stack">
                     <img class="result-room-image" src="${escapeHtml(room.normal)}" alt="">
                     <img class="result-room-image result-room-image-glitch" src="${escapeHtml(room.glitch)}" alt="">
@@ -695,7 +695,6 @@
                     <strong>${escapeHtml(`Your run: ${variantLabel}`)}</strong>
                 </div>
             `;
-            container.appendChild(tile);
         });
     }
 
@@ -1078,7 +1077,7 @@
         const sharePostText = buildSharePostText(state.session);
         node.querySelector('[data-bind="complete-session-id"]').textContent = state.session?.id || "";
         renderResultWords(node.querySelector('[data-bind="share-text"]'), state.session);
-        renderResultRoomGrid(node.querySelector('[data-bind="result-room-grid"]'), state.session);
+        renderResultRoomModules(node, state.session);
         node.querySelector('[data-bind="certificate-status"]').textContent = certificateStatusText(state.session);
         const certificateForm = node.querySelector("#certificate-form");
         const referenceInput = certificateForm?.elements?.reference;
