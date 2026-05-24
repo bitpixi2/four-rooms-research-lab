@@ -262,6 +262,7 @@
         const url = new URL(window.location.href);
         if (sessionId) url.searchParams.set("session", sessionId);
         else url.searchParams.delete("session");
+        rememberActiveSession(sessionId);
         url.searchParams.delete("result");
         if (roomNumber) url.searchParams.set("room", String(roomNumber));
         else url.searchParams.delete("room");
@@ -291,6 +292,24 @@
 
     function writeCookie(name, value, maxAgeSeconds) {
         document.cookie = `${name}=${value}; path=/; max-age=${maxAgeSeconds}; SameSite=Lax`;
+    }
+
+    function rememberActiveSession(sessionId) {
+        if (sessionId) {
+            writeCookie("four_rooms_active_session", encodeURIComponent(sessionId), 60 * 60 * 24 * 7);
+        } else {
+            writeCookie("four_rooms_active_session", "", 0);
+        }
+    }
+
+    function readActiveSession() {
+        const value = readCookie("four_rooms_active_session");
+        if (!value) return "";
+        try {
+            return decodeURIComponent(value);
+        } catch {
+            return "";
+        }
     }
 
     function ensureClientSessionId() {
@@ -1047,22 +1066,26 @@
 
     async function bootstrapFromUrl() {
         const url = new URL(window.location.href);
-        const sessionId = url.searchParams.get("session") || url.searchParams.get("result");
+        const sessionId = url.searchParams.get("session") || url.searchParams.get("result") || readActiveSession();
         if (!sessionId) return render();
         try {
             const session = await api(`/api/sessions/${sessionId}`);
             state.session = session;
+            rememberActiveSession(session.id);
             resetTranscriptForSession(session);
             for (const response of session.responses) {
                 appendTranscript("agent", response.title, response.response);
             }
             if (session.completed) {
                 state.currentView = "complete";
+                setUrl(session.id, null);
             } else {
                 appendTranscript("system", session.current.title, session.current.prompt);
                 state.currentView = "run";
+                setUrl(session.id, session.current.room);
             }
         } catch {
+            rememberActiveSession(null);
             state.currentView = "intro";
         }
         render();
