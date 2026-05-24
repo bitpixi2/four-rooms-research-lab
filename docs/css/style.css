@@ -1136,16 +1136,22 @@ textarea {
 .room-experience {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(320px, 0.92fr);
-    align-items: stretch;
+    align-items: start;
     gap: 22px;
     padding: 0;
+}
+
+.room-visual-stack {
+    display: grid;
+    gap: 12px;
+    align-self: start;
+    min-width: 0;
 }
 
 .scene-frame {
     position: relative;
     overflow: hidden;
     width: 100%;
-    align-self: start;
     min-height: 0;
     background:
         radial-gradient(circle at top, rgba(255, 255, 255, 0.08), transparent 34%),
@@ -1168,6 +1174,11 @@ textarea {
     animation: riseIn 720ms ease both;
 }
 
+.scene.scene-artwork::before,
+.scene.scene-artwork::after {
+    display: none;
+}
+
 .room-copy-stack {
     display: grid;
     grid-template-rows: auto 1fr;
@@ -1179,9 +1190,12 @@ textarea {
 .scene-caption {
     display: grid;
     gap: 6px;
-    margin-top: 12px;
-    padding: 0 2px;
+    padding: 16px 18px;
     color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--panel-soft);
+    box-shadow: var(--glow-soft);
 }
 
 .scene-caption-title {
@@ -2630,6 +2644,12 @@ textarea {
     min-height: 124px;
 }
 
+.response-label {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.35em;
+}
+
 .response-form .form-actions {
     margin-top: 18px;
 }
@@ -3208,6 +3228,15 @@ textarea {
     .scene-frame,
     .scene {
         min-height: 0;
+    }
+
+    .scene-caption {
+        padding: 14px 16px;
+    }
+
+    .response-label {
+        display: grid;
+        gap: 2px;
     }
 
     .intro-void {

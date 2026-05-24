@@ -805,7 +805,7 @@
 
         const sceneDetails = getSceneDetails(session.current);
         const scene = node.querySelector('[data-bind="scene"]');
-        scene.className = `scene ${session.current.scene}`;
+        scene.className = `scene ${session.current.scene}${sceneDetails.imageSrc ? " scene-artwork" : ""}`;
         scene.innerHTML = sceneDetails.imageSrc
             ? `<img class="scene-image" src="${escapeHtml(sceneDetails.imageSrc)}" alt="${escapeHtml(sceneDetails.captionTitle)}">`
             : sceneDetails.markup;
