@@ -879,16 +879,6 @@
             link.click();
             link.remove();
         });
-        const copyShareButton = node.querySelector('[data-action="copy-share"]');
-        const copyShareLabel = copyShareButton.querySelector('[data-bind="copy-share-label"]');
-        copyShareButton.addEventListener("click", async () => {
-            try {
-                await navigator.clipboard.writeText(sharePostText);
-                setCopiedState(copyShareButton, copyShareLabel, "Copy share text");
-            } catch {
-                alert("Clipboard access failed.");
-            }
-        });
         node.querySelector('[data-action="share-x"]').addEventListener("click", () => {
             const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(sharePostText)}`;
             window.open(shareUrl, "_blank", "noopener,noreferrer");
