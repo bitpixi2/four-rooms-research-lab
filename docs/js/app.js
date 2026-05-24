@@ -634,7 +634,7 @@
         }
         const prefix = document.createElement("span");
         prefix.className = "result-prefix";
-        prefix.textContent = "FRRL result:";
+        prefix.textContent = "Your FRRL Result:";
         container.appendChild(prefix);
         traits.forEach((trait, index) => {
             const details = describeResultTrait(session, trait);

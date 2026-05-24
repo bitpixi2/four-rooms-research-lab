@@ -2705,19 +2705,23 @@ textarea {
 .results-share-text {
     margin: 0;
     position: relative;
-    max-width: 30ch;
-    font-family: var(--font-display);
-    font-size: clamp(1.6rem, 3.1vw, 2.35rem);
-    line-height: 1.14;
+    max-width: min(100%, 760px);
+    font-family: var(--font-body);
+    font-size: clamp(0.95rem, 1.6vw, 1.08rem);
+    line-height: 1.25;
     color: var(--text);
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    align-items: center;
     justify-content: center;
-    gap: 8px 10px;
+    gap: 8px;
 }
 
 .result-prefix {
-    width: 100%;
+    flex: 0 0 auto;
+    color: var(--muted);
+    font-weight: 700;
+    letter-spacing: 0.04em;
 }
 
 .result-word-wrap {
@@ -2732,10 +2736,11 @@ textarea {
     border-bottom: 1px solid rgba(255, 255, 255, 0.42);
     background: transparent;
     color: var(--text);
-    font: inherit;
+    font: 700 0.94rem/1.05 var(--font-body);
     line-height: 1.05;
     padding: 0 0 3px;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .result-word:hover,
@@ -3484,7 +3489,17 @@ textarea {
 
     .results-share-text {
         max-width: none;
-        font-size: clamp(1.35rem, 6vw, 1.9rem);
+        flex-wrap: wrap;
+        font-size: 0.88rem;
+        gap: 8px 9px;
+    }
+
+    .result-prefix {
+        width: 100%;
+    }
+
+    .result-word {
+        font-size: 0.86rem;
     }
 
     .result-room-image-stack {
