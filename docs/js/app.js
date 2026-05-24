@@ -203,6 +203,7 @@
         const url = new URL(window.location.href);
         if (sessionId) url.searchParams.set("session", sessionId);
         else url.searchParams.delete("session");
+        url.searchParams.delete("result");
         if (roomNumber) url.searchParams.set("room", String(roomNumber));
         else url.searchParams.delete("room");
         window.history.replaceState({}, "", url.toString());
@@ -424,16 +425,19 @@
         }, duration);
     }
 
-    function getExperimentUrl() {
+    function getExperimentUrl(session) {
         const url = new URL(window.location.href);
         url.search = "";
         url.hash = "";
+        if (session?.completed && session?.id) {
+            url.searchParams.set("result", session.id);
+        }
         return url.toString();
     }
 
     function buildSharePostText(session) {
         const shareLine = session?.summary?.shareText || "My agent got a result in Four Rooms Research Lab.";
-        return `${shareLine} ${getExperimentUrl()}`.trim();
+        return `${shareLine} ${getExperimentUrl(session)}`.trim();
     }
 
     function wrapText(text, maxChars = 34, maxLines = 3) {
@@ -896,7 +900,7 @@
 
     async function bootstrapFromUrl() {
         const url = new URL(window.location.href);
-        const sessionId = url.searchParams.get("session");
+        const sessionId = url.searchParams.get("session") || url.searchParams.get("result");
         if (!sessionId) return render();
         try {
             const session = await api(`/api/sessions/${sessionId}`);

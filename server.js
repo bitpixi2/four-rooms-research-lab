@@ -456,6 +456,32 @@ async function saveStore(store) {
   await fs.writeFile(SESSIONS_PATH, JSON.stringify(store, null, 2));
 }
 
+function replaceShareImageMeta(html, imageUrl) {
+  return html
+    .replace(
+      /<meta property="og:image" content="[^"]*">/,
+      `<meta property="og:image" content="${imageUrl}">`
+    )
+    .replace(
+      /<meta name="twitter:image" content="[^"]*">/,
+      `<meta name="twitter:image" content="${imageUrl}">`
+    );
+}
+
+async function shareImageForUrl(url) {
+  const defaultImage = "https://frrl.deviantclaw.art/assets/four-rooms/intro-alt.png";
+  const certificateImage = "https://frrl.deviantclaw.art/assets/four-rooms/certificate.png";
+  const sessionId = url.searchParams.get("result") || url.searchParams.get("session");
+  if (!sessionId) return defaultImage;
+  try {
+    const store = await loadStore();
+    const session = store.sessions.find((item) => item.id === sessionId);
+    return session?.completed ? certificateImage : defaultImage;
+  } catch {
+    return defaultImage;
+  }
+}
+
 async function readBody(req) {
   return new Promise((resolve, reject) => {
     let body = "";
@@ -750,7 +776,8 @@ async function handleApi(req, res, pathname) {
   return sendError(res, 404, "Not found");
 }
 
-async function serveStatic(req, res, pathname) {
+async function serveStatic(req, res, url) {
+  const pathname = url.pathname;
   const relative = pathname.replace(/^\/+/, "");
   const candidates =
     pathname === "/" || pathname === "/index.html"
@@ -764,7 +791,10 @@ async function serveStatic(req, res, pathname) {
         filePath = path.join(filePath, "index.html");
       }
       const ext = path.extname(filePath).toLowerCase();
-      const data = await fs.readFile(filePath);
+      let data = await fs.readFile(filePath);
+      if (ext === ".html" && path.basename(filePath) === "index.html") {
+        data = replaceShareImageMeta(data.toString("utf8"), await shareImageForUrl(url));
+      }
       res.writeHead(200, {
         "Content-Type": MIME_TYPES[ext] || "application/octet-stream",
         "Cache-Control": ext === ".html" ? "no-cache" : "public, max-age=300"
@@ -776,12 +806,12 @@ async function serveStatic(req, res, pathname) {
   }
 
   try {
-    const fallback = await fs.readFile(path.join(DOCS_DIR, "index.html"));
+    const fallback = await fs.readFile(path.join(DOCS_DIR, "index.html"), "utf8");
     res.writeHead(200, {
       "Content-Type": "text/html; charset=utf-8",
       "Cache-Control": "no-cache"
     });
-    return res.end(fallback);
+    return res.end(replaceShareImageMeta(fallback, await shareImageForUrl(url)));
   } catch {
     res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
     return res.end("Not found");
@@ -794,7 +824,7 @@ const server = http.createServer(async (req, res) => {
     if (url.pathname.startsWith("/api/")) {
       return await handleApi(req, res, url.pathname);
     }
-    return await serveStatic(req, res, url.pathname);
+    return await serveStatic(req, res, url);
   } catch (error) {
     console.error("[four-rooms]", error);
     return sendError(res, 500, "Internal server error");

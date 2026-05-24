@@ -549,6 +549,47 @@ async function saveStore(env, store) {
   if (!response.ok) throw new Error("Failed to save session store");
 }
 
+function replaceShareImageMeta(html, imageUrl) {
+  return html
+    .replace(
+      /<meta property="og:image" content="[^"]*">/,
+      `<meta property="og:image" content="${imageUrl}">`
+    )
+    .replace(
+      /<meta name="twitter:image" content="[^"]*">/,
+      `<meta name="twitter:image" content="${imageUrl}">`
+    );
+}
+
+async function shareImageForUrl(env, url) {
+  const defaultImage = "https://frrl.deviantclaw.art/assets/four-rooms/intro-alt.png";
+  const certificateImage = "https://frrl.deviantclaw.art/assets/four-rooms/certificate.png";
+  const sessionId = url.searchParams.get("result") || url.searchParams.get("session");
+  if (!sessionId) return defaultImage;
+  try {
+    const store = await loadStore(env);
+    const session = store.sessions.find((item) => item.id === sessionId);
+    return session?.completed ? certificateImage : defaultImage;
+  } catch {
+    return defaultImage;
+  }
+}
+
+async function handleHtmlShell(request, env, url) {
+  const assetUrl = new URL("/index.html", url.origin);
+  const response = await env.ASSETS.fetch(new Request(assetUrl, request));
+  if (!response.ok) return response;
+  const imageUrl = await shareImageForUrl(env, url);
+  const headers = new Headers(response.headers);
+  headers.set("Content-Type", "text/html; charset=utf-8");
+  headers.set("Cache-Control", "no-cache");
+  return new Response(replaceShareImageMeta(await response.text(), imageUrl), {
+    status: response.status,
+    statusText: response.statusText,
+    headers
+  });
+}
+
 async function handleApi(request, env, pathname) {
   if (request.method === "OPTIONS") {
     return new Response(null, {
@@ -744,6 +785,9 @@ export default {
       const url = new URL(request.url);
       if (url.pathname.startsWith("/api/")) {
         return handleApi(request, env, url.pathname);
+      }
+      if (request.method === "GET" && (url.pathname === "/" || url.pathname === "/index.html")) {
+        return handleHtmlShell(request, env, url);
       }
       return env.ASSETS.fetch(request);
     } catch (error) {
