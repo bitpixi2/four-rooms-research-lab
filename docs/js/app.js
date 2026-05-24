@@ -1096,7 +1096,19 @@
             const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(sharePostText)}`;
             window.open(shareUrl, "_blank", "noopener,noreferrer");
         });
-        node.querySelector('[data-action="restart"]').addEventListener("click", () => {
+        node.querySelector('[data-action="restart"]').addEventListener("click", async (event) => {
+            const sessionId = state.session?.id;
+            event.currentTarget.disabled = true;
+            if (sessionId) {
+                try {
+                    await api(`/api/sessions/${sessionId}/play-again`, {
+                        method: "POST",
+                        body: JSON.stringify({ source: "results-play-again" })
+                    });
+                } catch {
+                    // Do not trap users on the result page if analytics fails.
+                }
+            }
             state.session = null;
             state.transcript = [];
             setUrl(null, null);

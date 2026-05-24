@@ -509,6 +509,8 @@ function publicSession(store, session) {
     id: session.id,
     createdAt: session.createdAt,
     updatedAt: session.updatedAt,
+    playAgainPressed: Boolean(session.playAgainPressed),
+    playAgainPressedAt: session.playAgainPressedAt || null,
     participant: session.participant || null,
     path: session.path,
     pathLabel: pathLabel(session.path),
@@ -637,7 +639,9 @@ async function handleApi(request, env, pathname) {
         agentDescription: truncate(body.agentDescription || "", 240)
       },
       source: buildSourceMetadata(body, request),
-      responses: []
+      responses: [],
+      playAgainPressed: false,
+      playAgainPressedAt: null
     };
     store.sessions.push(session);
     await saveStore(env, store);
@@ -749,6 +753,32 @@ async function handleApi(request, env, pathname) {
     });
   }
 
+  const playAgainMatch = pathname.match(/^\/api\/sessions\/([^/]+)\/play-again$/);
+  if (request.method === "POST" && playAgainMatch) {
+    const session = store.sessions.find((item) => item.id === playAgainMatch[1]);
+    if (!session) return errorResponse(404, "Session not found");
+    const body = await readJson(request);
+    const now = new Date().toISOString();
+    session.playAgainPressed = true;
+    session.playAgainPressedAt = session.playAgainPressedAt || now;
+    session.updatedAt = now;
+    if (!Array.isArray(store.playAgainEvents)) store.playAgainEvents = [];
+    store.playAgainEvents.push({
+      sessionId: session.id,
+      pressedAt: now,
+      completed: Boolean(session.completed),
+      source: truncate(body.source || "results-play-again", 80)
+    });
+    await saveStore(env, store);
+    return jsonResponse(200, {
+      accepted: true,
+      playAgainPressed: true,
+      playAgainPressedAt: session.playAgainPressedAt,
+      eventCount: store.playAgainEvents.length,
+      session: publicSession(store, session)
+    });
+  }
+
   const exportMatch = pathname.match(/^\/api\/sessions\/([^/]+)\/export$/);
   if (request.method === "GET" && exportMatch) {
     const session = store.sessions.find((item) => item.id === exportMatch[1]);
@@ -775,11 +805,13 @@ export class SessionStore {
     if (request.method === "GET") {
       const store = (await this.state.storage.get("store")) || { sessions: [] };
       if (!Array.isArray(store.sessions)) store.sessions = [];
+      if (!Array.isArray(store.playAgainEvents)) store.playAgainEvents = [];
       return jsonResponse(200, store);
     }
     if (request.method === "PUT") {
       const store = await readJson(request);
       if (!Array.isArray(store.sessions)) store.sessions = [];
+      if (!Array.isArray(store.playAgainEvents)) store.playAgainEvents = [];
       await this.state.storage.put("store", store);
       return jsonResponse(200, { ok: true });
     }
