@@ -2,11 +2,11 @@
 
 Four Rooms Research Lab is an interactive prototype for a behavioral experiment involving artificial agents.
 
-**Live GitHub Pages site:**
-- https://bitpixi2.github.io/four-rooms-research-lab/
+**Live site:**
+- https://frrl.deviantclaw.art/
 
 **Commission brief PDF:**
-- https://bitpixi2.github.io/four-rooms-research-lab/commissions/astral-dream-machine-commission-brief.pdf
+- https://frrl.deviantclaw.art/commissions/astral-dream-machine-commission-brief.pdf
 
 The current build includes:
 

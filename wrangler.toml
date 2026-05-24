@@ -2,8 +2,13 @@ name = "three-rooms"
 # Legacy deployment name retained to preserve existing Durable Object session storage.
 main = "worker.js"
 compatibility_date = "2026-04-04"
+workers_dev = true
 
 assets = { directory = "./docs", binding = "ASSETS" }
+
+routes = [
+  { pattern = "frrl.deviantclaw.art", custom_domain = true }
+]
 
 [[durable_objects.bindings]]
 name = "SESSION_STORE"
