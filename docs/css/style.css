@@ -818,6 +818,7 @@ body {
 .intake-screen {
     isolation: isolate;
     justify-items: center;
+    min-height: 100vh;
     text-align: center;
 }
 
