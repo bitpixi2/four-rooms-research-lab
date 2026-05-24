@@ -837,6 +837,16 @@ body {
     gap: 18px;
 }
 
+.optional-demographics-header {
+    margin: 6px 0 -2px;
+    color: var(--gold);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
 .intake-form label,
 .response-form label {
     display: grid;
@@ -864,7 +874,7 @@ body {
     color: rgba(208, 208, 214, 0.72);
     font-size: 0.9rem;
     line-height: 1.55;
-    text-align: left;
+    text-align: center;
 }
 
 .intake-note a,

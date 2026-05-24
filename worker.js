@@ -582,6 +582,8 @@ async function handleApi(request, env, pathname) {
       participant: {
         humanAge: truncate(body.humanAge || "", 16),
         humanGender: truncate(body.humanGender || "", 120),
+        countryResidence: truncate(body.countryResidence || "", 120),
+        referralSource: truncate(body.referralSource || "", 220),
         setup,
         agentDescription: truncate(body.agentDescription || "", 240)
       },
