@@ -2960,6 +2960,19 @@ textarea {
     gap: 14px;
 }
 
+.results-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.scoring-link {
+    min-height: 42px;
+    padding: 0 16px;
+    font-size: 0.72rem;
+}
+
 .results-history-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3061,6 +3074,75 @@ textarea {
     margin: 20px auto 0;
     text-align: center;
     align-self: center;
+}
+
+.scoring-guide {
+    display: grid;
+    gap: 18px;
+}
+
+.scoring-guide h2 {
+    margin-bottom: 0;
+}
+
+.scoring-guide h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.42rem;
+}
+
+.scoring-guide p,
+.scoring-guide li,
+.scoring-guide dd {
+    line-height: 1.62;
+}
+
+.scoring-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 4px 0 6px;
+}
+
+.scoring-fields {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+}
+
+.scoring-fields div,
+.scoring-room {
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.scoring-fields dt {
+    margin-bottom: 4px;
+    color: var(--text);
+    font-weight: 800;
+}
+
+.scoring-fields dd {
+    margin: 0;
+    color: var(--muted);
+}
+
+.scoring-room {
+    display: grid;
+    gap: 10px;
+}
+
+.scoring-room p,
+.scoring-room ul {
+    margin: 0;
+}
+
+.legal-card code {
+    color: var(--text);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    font-size: 0.92em;
 }
 
 .transition-overlay {
@@ -3517,6 +3599,17 @@ textarea {
 
     .results-history-grid {
         grid-template-columns: 1fr;
+    }
+
+    .results-section-heading,
+    .scoring-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .scoring-link,
+    .scoring-actions .ghost-button {
+        width: 100%;
     }
 
     .intake-inline-row {
