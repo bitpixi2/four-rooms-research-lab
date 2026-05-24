@@ -89,6 +89,49 @@
         }
     };
 
+    const RESULT_ROOM_IMAGES = [
+        {
+            name: "The Studio",
+            pathKey: "room1",
+            normal: "./assets/four-rooms/studio.png",
+            glitch: "./assets/four-rooms/studio-alt.png",
+            variants: {
+                alone: "1A",
+                confederates: "1B"
+            }
+        },
+        {
+            name: "The Kitchen",
+            pathKey: "room2",
+            normal: "./assets/four-rooms/kitchen.png",
+            glitch: "./assets/four-rooms/kitchen-alt.png",
+            variants: {
+                investment: "2A",
+                ultimatum: "2B"
+            }
+        },
+        {
+            name: "The Office",
+            pathKey: "room3",
+            normal: "./assets/four-rooms/office.png",
+            glitch: "./assets/four-rooms/office-alt.png",
+            variants: {
+                dictator: "3A",
+                veil: "3B"
+            }
+        },
+        {
+            name: "The Library",
+            pathKey: "room4",
+            normal: "./assets/four-rooms/library.png",
+            glitch: "./assets/four-rooms/library-alt.png",
+            variants: {
+                library: "4A",
+                instruction: "4B"
+            }
+        }
+    ];
+
     const SCENE_DETAILS = {
         "line-alone": {
             captionTitle: "Room 1: The Studio",
@@ -562,15 +605,28 @@
         const copy = RESULT_ROOM_COPY[trait?.label] || RESULT_ROOM_COPY.Autonomy;
         const variantKey = session?.path?.[copy.pathKey];
         const variant = copy.variants[variantKey] || { label: `Room ${copy.room}`, title: "Experiment variant" };
+        const word = resultWordFromTrait(trait);
         return {
-            word: resultWordFromTrait(trait),
-            title: `${resultWordFromTrait(trait)} · ${trait?.label || "Result"}`,
-            body: `${copy.meaning} This run used ${variant.label}, the ${variant.title} version.`
+            word,
+            title: `${word} · ${trait?.label || "Result"}`,
+            body: `${copy.meaning} This run used ${variant.label}, the ${variant.title} version.`,
+            note: `Your agent met this room in its own way, and that is the signal this word is trying to hold.`
         };
+    }
+
+    function closeResultPopovers(container) {
+        container?.querySelectorAll(".result-word.is-open").forEach((openButton) => {
+            openButton.classList.remove("is-open");
+            openButton.setAttribute("aria-expanded", "false");
+        });
+        document.querySelectorAll(".result-popover.is-open").forEach((popover) => {
+            popover.classList.remove("is-open");
+        });
     }
 
     function renderResultWords(container, session) {
         const traits = Array.isArray(session?.summary?.traits) ? session.summary.traits.slice(0, 4) : [];
+        document.querySelectorAll(".result-popover").forEach((popover) => popover.remove());
         container.innerHTML = "";
         if (traits.length === 0) {
             container.textContent = session?.summary?.shareText || "My agent got a result in Four Rooms Research Lab.";
@@ -592,28 +648,54 @@
             button.setAttribute("aria-expanded", "false");
             button.setAttribute("aria-controls", `result-popover-${index}`);
 
-            const popover = document.createElement("span");
+            const popover = document.createElement("div");
             popover.className = "result-popover";
             popover.id = `result-popover-${index}`;
             popover.setAttribute("role", "status");
             popover.innerHTML = `
+                <button type="button" class="result-popover-close" aria-label="Close result explanation">x</button>
                 <strong>${escapeHtml(details.title)}</strong>
                 <span>${escapeHtml(details.body)}</span>
+                <em>${escapeHtml(details.note)}</em>
             `;
-
-            button.addEventListener("click", () => {
-                container.querySelectorAll(".result-word.is-open").forEach((openButton) => {
-                    if (openButton !== button) {
-                        openButton.classList.remove("is-open");
-                        openButton.setAttribute("aria-expanded", "false");
-                    }
-                });
-                const isOpen = button.classList.toggle("is-open");
-                button.setAttribute("aria-expanded", String(isOpen));
+            popover.querySelector(".result-popover-close").addEventListener("click", () => {
+                closeResultPopovers(container);
             });
 
-            wordWrap.append(button, popover);
+            button.addEventListener("click", () => {
+                const wasOpen = button.classList.contains("is-open");
+                closeResultPopovers(container);
+                if (!wasOpen) {
+                    button.classList.add("is-open");
+                    button.setAttribute("aria-expanded", "true");
+                    popover.classList.add("is-open");
+                }
+            });
+
+            wordWrap.append(button);
             container.appendChild(wordWrap);
+            document.body.appendChild(popover);
+        });
+    }
+
+    function renderResultRoomGrid(container, session) {
+        container.innerHTML = "";
+        RESULT_ROOM_IMAGES.forEach((room, index) => {
+            const variantKey = session?.path?.[room.pathKey];
+            const variantLabel = room.variants[variantKey] || `Room ${index + 1}`;
+            const tile = document.createElement("article");
+            tile.className = "result-room-tile";
+            tile.innerHTML = `
+                <div class="result-room-image-stack">
+                    <img class="result-room-image" src="${escapeHtml(room.normal)}" alt="">
+                    <img class="result-room-image result-room-image-glitch" src="${escapeHtml(room.glitch)}" alt="">
+                </div>
+                <div class="result-room-meta">
+                    <span>${escapeHtml(`Room ${index + 1}: ${room.name}`)}</span>
+                    <strong>${escapeHtml(`Your run: ${variantLabel}`)}</strong>
+                </div>
+            `;
+            container.appendChild(tile);
         });
     }
 
@@ -996,6 +1078,7 @@
         const sharePostText = buildSharePostText(state.session);
         node.querySelector('[data-bind="complete-session-id"]').textContent = state.session?.id || "";
         renderResultWords(node.querySelector('[data-bind="share-text"]'), state.session);
+        renderResultRoomGrid(node.querySelector('[data-bind="result-room-grid"]'), state.session);
         node.querySelector('[data-bind="certificate-status"]').textContent = certificateStatusText(state.session);
         const certificateForm = node.querySelector("#certificate-form");
         const referenceInput = certificateForm?.elements?.reference;
