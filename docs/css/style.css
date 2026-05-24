@@ -912,10 +912,10 @@ body {
     width: 22px;
     height: 22px;
     padding: 0;
-    border: 1px solid rgba(215, 178, 106, 0.64);
+    border: 1px solid rgba(51, 147, 181, 0.72);
     border-radius: 999px;
     background: rgba(12, 12, 14, 0.76);
-    color: var(--gold);
+    color: var(--intro-blue);
     cursor: pointer;
     font: 800 0.78rem/1 var(--font-body);
     letter-spacing: 0;
@@ -924,8 +924,8 @@ body {
 .demographics-help-button:hover,
 .demographics-help-button:focus-visible,
 .demographics-help-button[aria-expanded="true"] {
-    border-color: rgba(255, 255, 255, 0.78);
-    color: var(--text);
+    border-color: rgba(51, 147, 181, 0.95);
+    color: var(--intro-blue);
     outline: none;
 }
 
@@ -959,7 +959,7 @@ body {
 }
 
 .demographics-help-popover a {
-    color: var(--intro-blue);
+    color: var(--intro-red);
     text-decoration: underline;
     text-underline-offset: 0.16em;
 }
