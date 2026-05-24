@@ -26,9 +26,6 @@
         <div class="ambient-orb orb-c"></div>
         <div class="ambient-noise"></div>
     </div>
-    <button type="button" class="sound-toggle-placeholder" aria-label="Sound options placeholder" title="Sound">
-        <span aria-hidden="true">Audio</span>
-    </button>
     <div class="app-shell">
         <main id="app"></main>
     </div>
@@ -52,6 +49,12 @@
             <div class="intro-void">
                 <img class="intro-image intro-image-base" src="./assets/four-rooms/intro.png" alt="Four Rooms Research Lab monitor room">
                 <img class="intro-image intro-image-flicker" src="./assets/four-rooms/intro-alt.png" alt="" aria-hidden="true">
+                <button type="button" class="sound-toggle-placeholder" aria-label="Sound off placeholder" title="Sound off">
+                    <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path d="M3 9v6h4l5 4V5L7 9H3z"></path>
+                        <path d="M18 9l4 4m0-4l-4 4"></path>
+                    </svg>
+                </button>
             </div>
             <p class="supporting intro-whisper" data-bind="intro-whisper">Bring your AI agent on a 15 minute copy-paste adventure. Nothing to install.</p>
             <button class="primary-button intro-button" data-action="open-intake">Enter</button>
@@ -142,6 +145,12 @@
                     <div class="room-visual-stack">
                         <div class="scene-frame">
                             <div class="scene" data-bind="scene"></div>
+                            <button type="button" class="sound-toggle-placeholder" aria-label="Sound off placeholder" title="Sound off">
+                                <svg aria-hidden="true" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 4V5L7 9H3z"></path>
+                                    <path d="M18 9l4 4m0-4l-4 4"></path>
+                                </svg>
+                            </button>
                         </div>
                         <div class="scene-caption">
                             <div class="scene-caption-title" data-bind="scene-caption-title"></div>

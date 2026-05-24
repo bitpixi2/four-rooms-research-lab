@@ -692,6 +692,12 @@
                     <div class="result-room-image-stack">
                         <img class="result-room-image" src="${escapeHtml(room.normal)}" alt="">
                         <img class="result-room-image result-room-image-glitch" src="${escapeHtml(room.glitch)}" alt="">
+                        <button type="button" class="sound-toggle-placeholder" aria-label="Sound off placeholder" title="Sound off">
+                            <svg aria-hidden="true" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 4V5L7 9H3z"></path>
+                                <path d="M18 9l4 4m0-4l-4 4"></path>
+                            </svg>
+                        </button>
                     </div>
                     <div class="result-room-meta">
                         <span>${escapeHtml(`Room ${index + 1}: ${room.name}`)}</span>
