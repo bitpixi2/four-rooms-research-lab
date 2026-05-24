@@ -301,6 +301,18 @@
         select.dataset.populated = "true";
     }
 
+    function populateAgeSelect(node) {
+        const select = node.querySelector("[data-age-select]");
+        if (!select || select.dataset.populated === "true") return;
+        for (let age = 13; age <= 99; age += 1) {
+            const option = document.createElement("option");
+            option.value = String(age);
+            option.textContent = String(age);
+            select.appendChild(option);
+        }
+        select.dataset.populated = "true";
+    }
+
     function appendTranscript(role, title, body) {
         state.transcript.push({ role, title, body });
     }
@@ -740,6 +752,7 @@
     function renderIntake() {
         const node = cloneTemplate("intake");
         populateCountrySelect(node);
+        populateAgeSelect(node);
         const helpButton = node.querySelector('[data-action="toggle-demographics-help"]');
         const helpPopover = node.querySelector("#demographics-help");
         const setHelpOpen = (isOpen) => {
