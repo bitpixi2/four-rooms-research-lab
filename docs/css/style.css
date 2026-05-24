@@ -2677,9 +2677,7 @@ textarea {
 }
 
 .results-session-id {
-    position: absolute;
-    top: 28px;
-    right: 28px;
+    justify-self: end;
     color: rgba(208, 208, 214, 0.72);
     font-size: 0.76rem;
     letter-spacing: 0.14em;
@@ -3564,8 +3562,6 @@ textarea {
     }
 
     .results-session-id {
-        position: static;
-        justify-self: end;
         margin-bottom: -4px;
     }
 
