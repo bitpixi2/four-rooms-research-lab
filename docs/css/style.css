@@ -850,7 +850,7 @@ body {
     margin: 0 auto;
     border: 1px solid var(--line);
     border-radius: 28px;
-    background: rgba(8, 8, 10, 0.84);
+    background: #08080a;
     box-shadow:
         0 28px 74px rgba(0, 0, 0, 0.42),
         inset 0 1px 0 rgba(255, 255, 255, 0.08);
