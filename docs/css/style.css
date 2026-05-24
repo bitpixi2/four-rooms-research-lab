@@ -571,7 +571,13 @@ body {
 }
 
 .intro-image {
+    grid-area: 1 / 1;
     filter: saturate(1.04) contrast(1.02);
+}
+
+.intro-image-flicker {
+    animation: introFlicker 3.8s steps(1, end) infinite;
+    opacity: 0;
 }
 
 .void-halo,
@@ -2818,6 +2824,22 @@ textarea {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes introFlicker {
+    0%, 13%, 19%, 23%, 47%, 51%, 78%, 84%, 100% {
+        opacity: 0;
+    }
+    14%, 18%, 24%, 26%, 48%, 50%, 79%, 83% {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .intro-image-flicker {
+        animation: none;
+        opacity: 1;
     }
 }
 
