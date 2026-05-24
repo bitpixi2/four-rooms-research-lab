@@ -695,6 +695,24 @@
 
     function renderIntake() {
         const node = cloneTemplate("intake");
+        const helpButton = node.querySelector('[data-action="toggle-demographics-help"]');
+        const helpPopover = node.querySelector("#demographics-help");
+        const setHelpOpen = (isOpen) => {
+            if (!helpButton || !helpPopover) return;
+            helpButton.setAttribute("aria-expanded", String(isOpen));
+            helpPopover.hidden = !isOpen;
+        };
+        helpButton?.addEventListener("click", () => {
+            setHelpOpen(helpButton.getAttribute("aria-expanded") !== "true");
+        });
+        node.addEventListener("click", (event) => {
+            if (!helpPopover || helpPopover.hidden) return;
+            if (event.target.closest(".optional-demographics-header")) return;
+            setHelpOpen(false);
+        });
+        node.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") setHelpOpen(false);
+        });
         node.querySelector("#intake-form").addEventListener("submit", async (event) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);

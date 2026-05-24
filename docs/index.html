@@ -70,7 +70,21 @@
                         <span>What setup/models do you use for this agent?</span>
                         <input type="text" name="setup" required />
                     </label>
-                    <div class="optional-demographics-header">Optional demographics</div>
+                    <div class="optional-demographics-header">
+                        <span>Optional demographics</span>
+                        <button
+                            type="button"
+                            class="demographics-help-button"
+                            data-action="toggle-demographics-help"
+                            aria-expanded="false"
+                            aria-controls="demographics-help"
+                            aria-label="Why ask for optional demographics?"
+                        >?</button>
+                        <div id="demographics-help" class="demographics-help-popover" hidden>
+                            <p>This information is anonymized and used only to understand, in broad terms, who is experimenting with AI agents at this early stage.</p>
+                            <p>There is no email field and no mailing list. You can request withdrawal at any time with your session ID. See the <a href="./privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a> for full details.</p>
+                        </div>
+                    </div>
                     <div class="intake-inline-row">
                         <label>
                             <span>What is your human age?</span>
