@@ -3553,6 +3553,23 @@ textarea {
         width: 100%;
     }
 
+    .completion-actions {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        width: 100%;
+    }
+
+    .completion-actions .primary-button,
+    .completion-actions .ghost-button {
+        flex: 1 1 0;
+        width: auto;
+        min-width: 0;
+        min-height: 44px;
+        padding: 0 10px;
+        font-size: 0.82rem;
+        white-space: nowrap;
+    }
+
     .intro-button {
         margin-top: 12px;
     }
