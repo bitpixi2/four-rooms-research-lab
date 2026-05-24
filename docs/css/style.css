@@ -3267,6 +3267,10 @@ textarea {
         width: 100%;
     }
 
+    .intro-button {
+        margin-top: 12px;
+    }
+
     .cube-node {
         width: 42%;
         min-width: 112px;
