@@ -233,12 +233,12 @@ button {
     --panel: rgba(10, 10, 12, 0.9);
     --panel-soft: rgba(19, 19, 23, 0.94);
     --line: rgba(255, 255, 255, 0.22);
-    --text: #fcfcfc;
-    --muted: #d0d0d6;
-    --ice: #ffffff;
-    --rose: #ededed;
-    --gold: #f2f2f2;
-    --mint: #e0e0e0;
+    --text: #e6e6ea;
+    --muted: #b8bac4;
+    --ice: #d8dce3;
+    --rose: #d9d9de;
+    --gold: #dddddf;
+    --mint: #ced2d3;
     --glow: 0 24px 80px rgba(0, 0, 0, 0.62);
     --glow-soft: 0 18px 48px rgba(0, 0, 0, 0.48);
 }
@@ -585,7 +585,7 @@ body {
     letter-spacing: 0.04em;
     line-height: 1.45;
     text-wrap: balance;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(216, 220, 227, 0.9);
 }
 
 .intro-button {
@@ -3059,7 +3059,7 @@ textarea {
 
 .result-score-reveal p {
     margin: 0;
-    color: rgba(252, 252, 252, 0.86);
+    color: rgba(230, 230, 234, 0.84);
     font-size: 0.84rem;
     line-height: 1.45;
 }
