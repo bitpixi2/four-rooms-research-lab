@@ -2831,8 +2831,19 @@ textarea {
 }
 
 .results-secondary-actions {
-    display: flex;
+    display: grid;
+    gap: 12px;
     justify-content: center;
+    justify-items: center;
+    text-align: center;
+}
+
+.room-variant-note {
+    margin: 0;
+    max-width: 48ch;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.45;
 }
 
 .legal-page {
