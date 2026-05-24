@@ -1,5 +1,5 @@
 {
-  "name": "four-rooms",
+  "name": "four-rooms-research-lab",
   "version": "0.1.0",
   "private": true,
   "description": "Interactive Four Rooms Research Lab prototype with local Node and Cloudflare Worker backends.",

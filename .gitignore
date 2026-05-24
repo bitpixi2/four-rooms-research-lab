@@ -1,3 +1,14 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+!.env.*.example
+.dev.vars
+.envrc
+*.pem
+*.key
+
+# Project files
 data/*.json
 node_modules/
 

@@ -5,6 +5,7 @@
         transcript: [],
         currentView: "intro"
     };
+    // Keep the legacy Worker hostname so existing Durable Object sessions stay attached.
     const API_ORIGIN = window.location.hostname.endsWith("github.io")
         ? "https://three-rooms.deviantclaw.workers.dev"
         : "";

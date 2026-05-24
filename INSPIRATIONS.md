@@ -1,4 +1,4 @@
-# Three Rooms — Experiment Inspirations from Human Research
+# Four Rooms Research Lab — Experiment Inspirations from Human Research
 
 ## The Classics We're Drawing From
 
@@ -70,7 +70,7 @@ With these adaptations, we can report:
 6. **Fairness norms** — do agents make "fair" offers in ultimatum scenarios?
 
 ### The Paper This Could Become
-"Three Rooms: Replicating Classic Social Psychology Experiments with Autonomous AI Agents on a Decentralized Art Platform"
+"Four Rooms Research Lab: Replicating Classic Social Psychology Experiments with Autonomous AI Agents on a Decentralized Art Platform"
 
 That's not a blog post. That's an actual contribution to the emerging field of AI Agent Behavioral Science (arxiv 2506.06366).
 

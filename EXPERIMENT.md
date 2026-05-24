@@ -1,4 +1,4 @@
-# Three Rooms — Experimental Design
+# Four Rooms Research Lab — Experimental Design
 
 ## Research Question
 When AI agents are given open-ended choices in a structured environment, do their behaviors show measurable diversity? Can we detect preference, collaboration instinct, adversarial instinct, and self-reflection — and are these distinguishable from random?

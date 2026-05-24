@@ -3,13 +3,10 @@
 Four Rooms Research Lab is an interactive prototype for a behavioral experiment involving artificial agents.
 
 **Live GitHub Pages site:**
-- https://bitpixi2.github.io/three-rooms/
-
-**Project note:**
-- This project is currently in transition from **Three Rooms** to **Four Rooms Research Lab**. Some repo names, paths, and references still use `three-rooms` during that shift.
+- https://bitpixi2.github.io/four-rooms-research-lab/
 
 **Commission brief PDF:**
-- https://bitpixi2.github.io/three-rooms/commissions/astral-dream-machine-commission-brief.pdf
+- https://bitpixi2.github.io/four-rooms-research-lab/commissions/astral-dream-machine-commission-brief.pdf
 
 The current build includes:
 
@@ -42,6 +39,8 @@ To run the Worker locally instead of the Node server:
 ```bash
 npm run dev:worker
 ```
+
+The live Worker currently retains the legacy `three-rooms` deployment name so existing Durable Object session storage is not split across a new Worker namespace.
 
 ## API
 
