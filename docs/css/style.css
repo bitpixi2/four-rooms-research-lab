@@ -797,8 +797,39 @@ body {
 }
 
 .intake-screen {
+    isolation: isolate;
     justify-items: center;
     text-align: center;
+}
+
+.intake-screen::before,
+.intake-screen::after {
+    content: "";
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.intake-screen::before {
+    background-image:
+        linear-gradient(rgba(2, 2, 2, 0.42), rgba(2, 2, 2, 0.66)),
+        url("../assets/four-rooms/intro.png");
+    filter: saturate(1.02) contrast(1.04);
+}
+
+.intake-screen::after {
+    z-index: -1;
+    opacity: 0;
+    animation: introFlicker 3.8s steps(1, end) infinite;
+    background-image:
+        linear-gradient(rgba(2, 2, 2, 0.34), rgba(2, 2, 2, 0.62)),
+        url("../assets/four-rooms/intro-alt.png");
+    filter: saturate(1.06) contrast(1.08);
 }
 
 .intake-card {
@@ -806,8 +837,10 @@ body {
     margin: 0 auto;
     border: 1px solid var(--line);
     border-radius: 28px;
-    background: var(--panel-soft);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    background: rgba(8, 8, 10, 0.84);
+    box-shadow:
+        0 28px 74px rgba(0, 0, 0, 0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
     padding: 28px;
 }
 
@@ -2847,7 +2880,8 @@ textarea {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .intro-image-flicker {
+    .intro-image-flicker,
+    .intake-screen::after {
         animation: none;
         opacity: 1;
     }
