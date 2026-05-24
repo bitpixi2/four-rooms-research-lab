@@ -334,8 +334,24 @@ function joinShareClauses(parts) {
   return `${parts.slice(0, -1).join(", ")}, and ${parts[parts.length - 1]}`;
 }
 
+function compactResultToken(trait) {
+  const label = trait?.label || "";
+  const value = String(trait?.value || "unreadable").toLowerCase();
+  if (label === "Public artifact") return `artifact-${value.replace(/\D+/g, "-").replace(/^-|-$/g, "") || "scored"}`;
+  return value
+    .replace(/\b(under instruction|under risk|process|allocation|exchange|offer|read)\b/g, "")
+    .replace(/\b(standard ultimatum|uncertain-attribution ultimatum)\b/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .replace(/-{2,}/g, "-") || "unreadable";
+}
+
+function buildResultCode(traits) {
+  return (traits || []).map(compactResultToken).filter(Boolean).join("-");
+}
+
 function buildShareText(traits) {
-  return `My agent got ${joinShareClauses((traits || []).map(formatTraitForShare))} in Four Rooms Research Lab.`;
+  return `FRRL result: ${buildResultCode(traits) || "unreadable"}`;
 }
 
 function buildRoomFeedback(session, responseEntry) {
@@ -414,6 +430,7 @@ function buildCertificate(session) {
     sessionId: session.id,
     path: summary.path,
     traits: summary.traits,
+    resultCode: summary.resultCode,
     shareText: summary.shareText,
     summaryLines: summary.summaryLines,
     linkedErc8004
@@ -584,6 +601,7 @@ function buildSummary(session) {
     title: "Run complete",
     path: pathLabel(session.path),
     traits,
+    resultCode: buildResultCode(traits),
     shareText: buildShareText(traits),
     summaryLines: [
       `The Studio: ${summarizeLineOutcome(session, roomOne?.response)}`,
