@@ -10,6 +10,8 @@
     --rose: #d2a2b8;
     --gold: #d8c08c;
     --mint: #a2cfbf;
+    --intro-red: #8f2827;
+    --intro-blue: #3393b5;
     --glow: 0 24px 60px rgba(0, 0, 0, 0.38);
     --glow-soft: 0 18px 44px rgba(4, 8, 18, 0.36);
     --scene-floor: #111622;
@@ -97,12 +99,12 @@ button {
 
 .site-footer-line > span:first-child a,
 .site-footer-line > a:nth-of-type(1) {
-    color: #8f2827;
+    color: var(--intro-red);
 }
 
 .site-footer-line > span:nth-child(3) a,
 .site-footer-line > a:nth-of-type(2) {
-    color: #46b5ce;
+    color: var(--intro-blue);
 }
 
 .site-footer a:hover {
@@ -952,7 +954,7 @@ body {
 }
 
 .demographics-help-popover a {
-    color: var(--text);
+    color: var(--intro-blue);
     text-decoration: underline;
     text-underline-offset: 0.16em;
 }
