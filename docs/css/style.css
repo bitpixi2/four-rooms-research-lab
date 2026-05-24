@@ -49,6 +49,7 @@ body.is-transitioning {
 a,
 button,
 input,
+select,
 textarea {
     font: inherit;
 }
@@ -1018,11 +1019,13 @@ body {
 }
 
 .intake-form input,
+.intake-form select,
 .intake-form textarea {
     text-align: left;
 }
 
 input,
+select,
 textarea {
     width: 100%;
     font-size: 16px;
@@ -1032,6 +1035,19 @@ textarea {
     background: rgba(20, 22, 28, 0.96);
     color: var(--text);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+select {
+    appearance: none;
+    background-image:
+        linear-gradient(45deg, transparent 50%, var(--intro-blue) 50%),
+        linear-gradient(135deg, var(--intro-blue) 50%, transparent 50%);
+    background-position:
+        calc(100% - 22px) 50%,
+        calc(100% - 16px) 50%;
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 42px;
 }
 
 input:-webkit-autofill,
@@ -1054,6 +1070,7 @@ textarea::placeholder {
 }
 
 input:focus,
+select:focus,
 textarea:focus {
     outline: none;
     border-color: rgba(255, 255, 255, 0.6);
@@ -1063,6 +1080,10 @@ textarea:focus {
 textarea {
     resize: vertical;
     min-height: 110px;
+}
+
+.agent-description-field {
+    min-height: 68px;
 }
 
 .form-actions,

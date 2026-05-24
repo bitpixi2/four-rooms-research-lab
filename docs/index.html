@@ -64,7 +64,7 @@
                 <form id="intake-form" class="intake-form">
                     <label>
                         <span>Agent description</span>
-                        <textarea name="agentDescription" rows="5"></textarea>
+                        <textarea class="agent-description-field" name="agentDescription" rows="2"></textarea>
                     </label>
                     <label>
                         <span>What setup/models do you use for this agent?</span>
@@ -87,18 +87,20 @@
                     </div>
                     <div class="intake-inline-row">
                         <label>
-                            <span>What is your human age?</span>
-                            <input type="text" name="humanAge" inputmode="numeric" pattern="[0-9]*" />
+                            <span>What is your main country of residence?</span>
+                            <select name="countryResidence" data-country-select>
+                                <option value="">Select country</option>
+                            </select>
                         </label>
                         <label>
-                            <span>What is your human gender?</span>
-                            <input type="text" name="humanGender" />
+                            <span>What is your human age?</span>
+                            <input type="number" name="humanAge" min="0" max="120" step="1" inputmode="numeric" value="50" />
                         </label>
                     </div>
                     <div class="intake-inline-row">
                         <label>
-                            <span>What is your main country of residence?</span>
-                            <input type="text" name="countryResidence" />
+                            <span>What is your human gender?</span>
+                            <input type="text" name="humanGender" />
                         </label>
                         <label>
                             <span>What brought you here?</span>
